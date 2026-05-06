@@ -18,6 +18,64 @@ bits  ->  Hamming(7,4) FEC  ->  modulation  ->  RRC pulse shape (sps=8, β=0.35)
       ->  ambiguity resolve  ->  symbol decisions  ->  Hamming decode  ->  BER
 ```
 
+## Results
+
+### BPSK
+
+Constellation through the synchronisation chain — full ring (no sync) →
+two clusters at the residual phase offset (after coarse freq) → clusters
+on the real axis (after Costas) → tight steady-state cluster:
+
+![BPSK constellation](bpsk_out/constellations.png)
+
+BER vs Eb/N0 sweep, simulated curve sits exactly on DBPSK-coherent theory,
+with the Hamming(7,4) FEC crossover visible around 5–6 dB:
+
+![BPSK BER curve](bpsk_out/ber_vs_ebn0.png)
+
+Eye diagram (200 symbols overlaid post-sync) — wide-open eye:
+
+![BPSK eye](bpsk_out/eye_diagram.png)
+
+### QPSK
+
+Constellation: ring → 4 clusters at the residual angle → clusters on the
+diagonals → clean steady-state:
+
+![QPSK constellation](qpsk_out/constellations.png)
+
+BER vs Eb/N0:
+
+![QPSK BER curve](qpsk_out/ber_vs_ebn0.png)
+
+Eye diagram (I and Q):
+
+![QPSK eye](qpsk_out/eye_diagram.png)
+
+### 256-QAM
+
+Constellation: blob (no sync) → angled clusters (coarse freq) → 16×16 grid
+emerging (Costas) → fully resolved 256-point lattice in steady state:
+
+![256-QAM constellation](qam256_out/constellations.png)
+
+BER vs Eb/N0, hugging Gray-coded 256-QAM theory:
+
+![256-QAM BER curve](qam256_out/ber_vs_ebn0.png)
+
+Eye diagram — much more open than BPSK/QPSK because every grid level
+gets a trace:
+
+![256-QAM eye](qam256_out/eye_diagram.png)
+
+Spectra (FFT magnitude after each block of the chain) and waveforms
+are also produced — see [`bpsk_out/spectra.png`](bpsk_out/spectra.png),
+[`qpsk_out/spectra.png`](qpsk_out/spectra.png),
+[`qam256_out/spectra.png`](qam256_out/spectra.png) and the corresponding
+`waveforms.png`.
+
+10-second 30-fps live convergence videos in each `*_out/constellation.mp4`.
+
 ## What changes between modems
 
 | step | BPSK | QPSK | 256-QAM |
